@@ -14,6 +14,11 @@ public class Board : MonoBehaviour
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10,20);
+    public SoundController soundController;
+
+    public int ClearedRowsCount { get; private set; }
+    public static int TotalScore { get; private set; } = 0;
+
 
     public RectInt Bounds{
         get{
@@ -47,6 +52,24 @@ public class Board : MonoBehaviour
         }
 
 
+        int points = 0;
+        if(ClearedRowsCount==1){
+            points = 400;
+        }
+        else if(ClearedRowsCount==2){
+            points=1000;
+        }
+        else if(ClearedRowsCount==3){
+            points=3000;
+        }else if(ClearedRowsCount==4){
+            points = 12000;
+        }
+        else if(ClearedRowsCount>4){
+            points = 12000 + (ClearedRowsCount-4)*3000;
+        }
+        TotalScore+=points;
+        Debug.Log(TotalScore);
+        ClearedRowsCount = 0;
 
     }
 
@@ -87,14 +110,18 @@ public class Board : MonoBehaviour
     public void ClearLines(){
         RectInt bounds = this.Bounds;
         int row = bounds.yMin;
+        ClearedRowsCount = 0;
 
         while(row < bounds.yMax){
             if(IsLineFull(row)){
                 LineClear(row);
+                ClearedRowsCount++;
             }else{
                 row++;
             }
         }
+        
+        
 
 
     }
@@ -130,5 +157,6 @@ public class Board : MonoBehaviour
             }
             row++;
         }
+        soundController.clearSound();
     }
 }

@@ -13,6 +13,7 @@ public class Piece : MonoBehaviour
     public Vector3Int[] cells {get; private set;}
     public Vector3Int position {get; private set;}
     public int rotationIndex{get; private set;}
+    public SoundController soundController;
     public float stepDelay = 1f;
     public float lockDelay = 0.5f;
 
@@ -82,12 +83,14 @@ public class Piece : MonoBehaviour
             continue;
         }
         Lock();
+
     }
 
     private void Lock(){
         this.board.Set(this);
         this.board.ClearLines();
         this.board.SpawnPiece();
+        soundController.place();
     }
     private bool Move(Vector2Int translation){
         Vector3Int newPosition = this.position;
@@ -113,6 +116,8 @@ public class Piece : MonoBehaviour
             this.rotationIndex = originalRotation;
             ApplyRotationMatrix(-direction);
         }
+        
+        
         
     }
 
