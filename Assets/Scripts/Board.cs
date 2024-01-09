@@ -16,6 +16,7 @@ public class Board : MonoBehaviour
     public Vector2Int boardSize = new Vector2Int(10,20);
     public SoundController soundController;
 
+
     public int ClearedRowsCount { get; private set; }
     public static int TotalScore { get; private set; } = 0;
 
@@ -75,6 +76,7 @@ public class Board : MonoBehaviour
 
     private void GameOver(){
         this.tilemap.ClearAllTiles();
+        TotalScore = 0;
     }
 
     public void Set(Piece piece){
